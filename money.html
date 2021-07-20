@@ -12,6 +12,48 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
+	<script>
+		//定义一个函数，完成存款计算
+		function calc(){
+			//一开始处做表单验证，验证输入的是不是数字
+			
+			
+			//1. 获取存款（读取文本框输入的数字)
+			var cunkuanjine = document.getElementById("amount").value;
+			//定义一个正则表达式（（规则表达式），假设我们要求存款金额是六位数
+			var regExp = /^[0-9]{2,6}$/;
+			if (!regExp.test(cunkuanjine))
+			{//能到此处，输入不合格
+			document.getElementById("amount").value="输入不合法!必须为2到6位数字";
+			document.getElementById("amount").style="color:red"
+			return;
+			}
+			//上面这句话取到的是“8000”，不是数字
+			//“8000”->8000
+			var cunkuannum=parseInt(cunkuanjine);
+			
+			//2. 计算
+			//取得存款年限（年利率）
+			var lilv = document.getElementById("year").value;
+			//只有文本框需要转换
+			var lixi = cunkuannum * lilv;
+			var total = cunkuannum + lixi;//本息合计
+			
+			//3. 把计算结果写入文本框
+		document.getElementById("lixi").value = lixi;
+		document.getElementById("total").value = total;
+	}
+		
+		function clearContent(){
+			//清空文本框
+			document.getElementById("amount").value=''
+			document.getElementById("amount").style="color:black"
+		}
+		
+		
+	
+	
+	</script>
 	</head>
 	<body>
 		<div class="container text-center">
@@ -23,7 +65,7 @@
 			<tr>
 				<td>存款金额</td>
 				<td>
-					<input class="form-control" type="text" placeholder="请输入存款金额" id="amount">
+					<input onfocus="clearContent()" class="form-control" type="text" placeholder="请输入存款金额" id="amount">
 				</td>
 			</tr>
 			<tr>
@@ -31,27 +73,27 @@
 				<td>
 					<select id="year" class="form-control">
 						<option value="0.0175">一年</option>
-						<option value="0.0225">两年</option>
-						<option value="0.0275">三年</option>
-						<option value="0.0275">五年</option>
+						<option value="0.045">两年</option>
+						<option value="0.0825">三年</option>
+						<option value="0.1375">五年</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>所得利息</td>
 				<td>
-			<input type="text" class="form-control" readonly="readonly">
+			<input id="lixi" type="text" class="form-control" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
 				<td>本息合计</td>
 				<td>	
-					<input type="text" name="total" class="form-control" readonly="readonly">
+					<input type="text" id="total" class="form-control" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button class="btn btn-primary btn-block">计算</button>
+					<button onclick="calc()" class="btn btn-primary btn-block">计算</button>
 				</td>
 			</tr>
 		</table>
